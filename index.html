@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+  <meta name="theme-color" content="#123a66">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="丁总计数面板">
+  <title>丁总计数面板</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="stylesheet" href="styles.css">
+  <script>
+    window.__counterBootReady=false;
+    window.__showCounterRecovery=function(){
+      if(window.__counterBootReady)return;
+      var box=document.getElementById('bootRecovery');
+      if(box)box.hidden=false;
+    };
+    window.addEventListener('DOMContentLoaded',function(){window.__counterBootTimer=setTimeout(window.__showCounterRecovery,5000)});
+    window.addEventListener('error',function(event){if(event.target&&event.target.tagName==='SCRIPT')setTimeout(window.__showCounterRecovery,300)},true);
+  </script>
+</head>
+<body>
+  <section class="boot-recovery" id="bootRecovery" hidden>
+    <div>
+      <h1>计数面板正在恢复</h1>
+      <p>车辆数据仍保存在本机。可以重试当前版本，或打开上一个正常版本。</p>
+      <button type="button" onclick="location.reload()">重新打开</button>
+      <button type="button" onclick="navigator.serviceWorker&&navigator.serviceWorker.controller?navigator.serviceWorker.controller.postMessage({type:'ROLLBACK'}):location.reload();setTimeout(function(){location.reload()},400)">恢复上一版本</button>
+    </div>
+  </section>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">平板计数 · 自动保存</p>
+      <h1>丁总多车辆计数台</h1>
+    </div>
+    <div class="save-state" id="saveState"><span></span>已自动保存</div>
+  </header>
+
+  <main class="shell">
+    <section class="panel vehicle-hub">
+      <div class="month-strip">
+        <label>计数月份<select id="monthSelect" aria-label="选择计数月份"></select></label>
+        <span id="monthSummary">本月0辆车</span>
+      </div>
+      <div class="vehicle-compact">
+        <div class="vehicle-tabs" id="vehicleTabs"></div>
+        <div class="vehicle-actions">
+          <button class="soft-btn edit-meta-btn" id="toggleMeta">编辑信息⌄</button>
+          <button class="ghost-btn add-compact" id="addVehicle">＋ 车辆</button>
+        </div>
+      </div>
+      <div class="meta-drawer hidden" id="metaDrawer">
+        <div class="meta-grid">
+          <label>日期<input id="dateInput" type="date"></label>
+          <label>Logo<input id="logoInput" type="text" list="logoOptions" placeholder="选择或输入Logo" autocomplete="off"><datalist id="logoOptions"></datalist></label>
+          <label>柜号<input id="containerInput" type="text" placeholder="选填" autocomplete="off"></label>
+          <label>海运费<input id="freightInput" type="number" min="0" step="1" placeholder="选填"></label>
+          <label class="template-field">品类模板<span class="select-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16v12H4zM7 7V4h10v3M8 10v6m4-6v6m4-6v6"/></svg><select id="templateInput"><option value="normal">A货柜（60项）</option><option value="b">B货柜（17项）</option></select></span></label>
+        </div>
+        <div class="drawer-foot">
+          <div class="backup-tools"><button class="soft-btn" id="backupAll" type="button">备份全部车辆</button><button class="soft-btn" id="restoreBackup" type="button">恢复备份</button><small id="backupStatus">尚未手动备份</small></div>
+          <button class="primary-btn" id="closeMeta">完成并收起</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="kpi-grid" aria-label="当前车辆统计">
+      <article><svg class="kpi-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h11v10H3zM14 10h4l3 3v3h-7zM7 19a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm10 0a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/></svg><span>当前车辆数量</span><strong id="totalQty">0</strong><em>包</em></article>
+      <article><svg class="kpi-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 7a3 3 0 1 1 6 0h3l3 14H3L6 7h3Zm1 0h4a2 2 0 0 0-4 0Z"/></svg><span>当前车辆总重量</span><strong id="totalWeight">0</strong><em>KG</em></article>
+      <article><svg class="kpi-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm-4 5 4 5 4-5m-7 6h6m-6 3h6m-3-4v7"/></svg><span>总价</span><strong id="totalPrice">0</strong><em>元</em></article>
+    </section>
+
+    <section class="panel count-panel">
+      <div class="toolbar">
+        <div class="search-wrap"><span>⌕</span><input id="searchInput" type="search" placeholder="搜索编码或中文品名"></div>
+        <button class="soft-btn" id="toggleCounted">只看已计</button>
+        <button class="soft-btn" id="historyBtn">计数记录</button>
+        <button class="danger-soft" id="clearBtn">清空本车</button>
+        <button class="danger-soft" id="deleteVehicleBtn">删除车辆</button>
+      </div>
+      <div class="count-grid" id="countGrid"></div>
+      <div class="empty-state hidden" id="emptyState">没有符合条件的品类</div>
+    </section>
+  </main>
+
+  <footer class="bottom-bar">
+    <div><span id="footerLogo">未填Logo</span><strong><b id="footerQty">0</b> 包</strong></div>
+    <button class="primary-btn" id="reviewExport">核对并导出本月 Excel</button>
+  </footer>
+
+  <dialog id="confirmDialog" class="dialog">
+    <form method="dialog">
+      <div class="dialog-head"><div><p>导出前确认</p><h2 id="confirmTitle">丁总本月计数表</h2></div><button value="cancel" class="icon-btn" aria-label="关闭">×</button></div>
+      <div class="confirm-meta" id="confirmMeta"></div>
+      <div class="confirm-list" id="confirmList"></div>
+      <p class="keep-note">每辆车将生成一个独立工作表；导出后网站中的全部记录继续保留。</p>
+      <div class="dialog-actions"><button value="cancel" class="soft-btn">返回检查</button><button type="button" class="primary-btn" id="confirmExport">确认导出</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="quantityDialog" class="quantity-dialog">
+    <form id="quantityForm">
+      <div class="quantity-head"><div><p id="quantityCode">编码</p><h2 id="quantityName">品名</h2></div><button type="button" class="icon-btn" id="cancelQuantity" aria-label="关闭">×</button></div>
+      <label class="quantity-entry">输入数量<small>双击数字可手动输入</small><span class="quantity-control"><button type="button" id="decreaseQuantity" aria-label="数量减一">−</button><input id="quantityInput" type="number" inputmode="numeric" pattern="[0-9]*" min="0" step="1" placeholder="0" readonly aria-label="当前数量，双击后可手动输入"></span></label>
+      <div class="dialog-actions"><button type="button" class="soft-btn" id="cancelQuantityBottom">取消</button><button type="submit" class="primary-btn">确认数量</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="historyDialog" class="history-dialog">
+    <form method="dialog">
+      <div class="history-head"><div><p>当前车辆</p><h2 id="historyVehicle">计数记录</h2></div><button value="cancel" class="icon-btn" aria-label="关闭">×</button></div>
+      <div class="history-list" id="historyList"></div>
+      <div class="dialog-actions"><button value="cancel" class="primary-btn">关闭</button></div>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>

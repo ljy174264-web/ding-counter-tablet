@@ -1,0 +1,16 @@
+{
+  "name": "丁总多车辆计数台",
+  "short_name": "丁总计数面板",
+  "description": "可离线使用的多车辆计数、备份与月度 Excel 导出工具",
+  "lang": "zh-CN",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "#eef4fa",
+  "theme_color": "#123a66",
+  "icons": [
+    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png"}
+  ]
+}
