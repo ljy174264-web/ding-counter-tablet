@@ -26,9 +26,8 @@ const PRICE_MAPS={
   b:{'028':1,'026':1.5,'003P':2,'22D':2,'22H':2,'015M':1.8,'44N-B':2,'mm18':4,'55M':2,'K006':2,'88K':2,'K31':2.5,'K003J':3.5,'H075':2,'K008':4.8,'S/B':17.5}
 };
 const STORAGE_KEY='ding-counter-state-v3';
-const BACKUP_KEY='ding-counter-backup-v1';
 const DB_NAME='ding-counter-offline-v3';
-const APP_VERSION='2026.09.05.2';
+const APP_VERSION='2026.09.05.3';
 const $=id=>document.getElementById(id);
 const uid=()=>globalThis.crypto?.randomUUID?.()||`v-${Date.now()}-${Math.random().toString(16).slice(2)}`;
 const today=()=>{const d=new Date(),z=n=>String(n).padStart(2,'0');return `${d.getFullYear()}-${z(d.getMonth()+1)}-${z(d.getDate())}`};
@@ -109,12 +108,6 @@ function saveQuantity(){const v=activeVehicle(),before=Number(v.counts[editingCo
 function historyTime(timestamp){if(!timestamp)return '时间未记录';const d=new Date(timestamp),z=n=>String(n).padStart(2,'0');return `${z(d.getMonth()+1)}/${z(d.getDate())} ${z(d.getHours())}:${z(d.getMinutes())}:${z(d.getSeconds())}`}
 function showHistory(){const v=activeVehicle(),idx=state.vehicles.indexOf(v)+1,items=new Map(itemsFor(v).map(([code,name])=>[code,name])),records=state.history.filter(x=>x.vehicleId===v.id).slice().reverse();$('historyVehicle').textContent=`${v.logo||`车辆${idx}`} · ${records.length}条`;$('historyList').innerHTML=records.length?records.map(x=>`<div class="history-row"><time>${historyTime(x.timestamp)}</time><span class="history-product"><b>${esc(x.code)}</b><small>${esc(items.get(x.code)||'品名未记录')}</small></span><strong>${Number(x.before||0)} → ${Number(x.after||0)}包</strong></div>`).join(''):'<div class="history-empty">当前车辆还没有计数记录</div>';$('historyDialog').showModal()}
 function updateMeta(field,value){const v=activeVehicle();v[field]=value;renderTabs();renderStats();persist()}
-function backupTime(timestamp){if(!timestamp)return '尚未手动备份';const d=new Date(timestamp),z=n=>String(n).padStart(2,'0');return `最近备份：${d.getFullYear()}/${z(d.getMonth()+1)}/${z(d.getDate())} ${z(d.getHours())}:${z(d.getMinutes())}`}
-async function latestBackup(){let local=null;try{local=JSON.parse(localStorage.getItem(BACKUP_KEY)||'null')}catch{}const stored=await dbGet('backup');return Number(local?.savedAt||0)>=Number(stored?.savedAt||0)?local:stored}
-async function renderBackupStatus(){const backup=await latestBackup();$('backupStatus').textContent=backupTime(backup?.savedAt)}
-async function backupAllVehicles(){await persist();const backup={savedAt:Date.now(),state:JSON.parse(JSON.stringify(state))};try{localStorage.setItem(BACKUP_KEY,JSON.stringify(backup));await dbPut(backup,'backup');$('backupStatus').textContent=backupTime(backup.savedAt);showToast(`已备份${state.vehicles.length}辆车的全部数据`)}catch{showToast('备份失败，请检查平板存储空间')}}
-async function restoreAllVehicles(){const backup=await latestBackup();if(!backup?.state)return showToast('还没有可以恢复的备份');if(!confirm(`${backupTime(backup.savedAt)}。恢复后将替换当前网站中的全部车辆数据，确定恢复吗？`))return;state=normalizeState(JSON.parse(JSON.stringify(backup.state)));ensureActiveMonth();renderAll();await persist();showToast(`已恢复${state.vehicles.length}辆车的数据`)}
-
 $('monthSelect').onchange=e=>{state.viewMonth=e.target.value;ensureActiveMonth();renderAll();persist()};
 $('addVehicle').onclick=()=>{const v=newVehicle(vehiclesForMonth().length+1,monthDate(state.viewMonth));state.vehicles.push(v);state.activeId=v.id;metaExpanded=true;renderAll();persist();showToast(`已添加${monthLabel(state.viewMonth)}的新车辆`)};
 $('toggleMeta').onclick=()=>{metaExpanded=!metaExpanded;renderDrawer()};
@@ -127,8 +120,6 @@ $('templateInput').onchange=e=>{const v=activeVehicle(),has=stats(v).qty>0;if(ha
 $('searchInput').oninput=e=>{searchText=e.target.value;renderGrid()};
 $('toggleCounted').onclick=()=>{onlyCounted=!onlyCounted;renderGrid();$('toggleCounted').classList.toggle('on',onlyCounted)};
 $('historyBtn').onclick=showHistory;
-$('backupAll').onclick=backupAllVehicles;
-$('restoreBackup').onclick=restoreAllVehicles;
 $('clearBtn').onclick=()=>{const v=activeVehicle();if(!stats(v).qty)return showToast('当前车辆还没有数量');if(confirm(`确定清空${v.name}的全部计数吗？此操作只清数量，不删除车辆。`)){v.counts={};state.history=state.history.filter(h=>h.vehicleId!==v.id);renderAll();persist();showToast('当前车辆数量已清空')}};
 $('deleteVehicleBtn').onclick=()=>{const v=activeVehicle();if(!confirm(`确定删除${v.name}吗？删除后该车辆的计数和记录都会清除。`))return;state.vehicles=state.vehicles.filter(x=>x.id!==v.id);state.history=state.history.filter(h=>h.vehicleId!==v.id);const vehicles=ensureActiveMonth();state.activeId=vehicles[0].id;renderAll();persist();showToast('车辆已删除')};
 $('quantityForm').onsubmit=e=>{e.preventDefault();saveQuantity()};
@@ -157,7 +148,7 @@ function cell(ref,value,style=5,type){if(value===null||value===undefined||value=
 function exportSheetBase(v){const [,m,d]=String(v.date||'').split('-').map(Number),logo=String(v.logo||'').trim().replace(/[\\/:?*\[\]']/g,'');return `${m||''}月${d||''}日${logo}`||'数量单'}
 function exportSheetEntries(vehicles){const used=new Set();return vehicles.map(vehicle=>{const base=exportSheetBase(vehicle);let name=base.slice(0,31),n=1;while(used.has(name)){n++;const suffix=`-${n}`;name=base.slice(0,31-suffix.length)+suffix}used.add(name);return{vehicle,name}})}
 function makeSheetXml(v){
-  const items=itemsFor(v),start=7,end=start+items.length-1,total=end+1,s=stats(v),rows=[];
+  const items=itemsFor(v).filter(([code])=>Number(v.counts[code]||0)>0),start=7,end=start+items.length-1,total=end+1,s=stats(v),rows=[];
   rows.push(`<row r="1" ht="34" customHeight="1">${cell('A1','丁总数量单',1)}</row>`);
   [['日期',formatDateCN(v.date)],['Logo',v.logo],['柜号',v.container],['海运费',v.freight===''?'':Number(v.freight)]].forEach((x,i)=>{const r=i+2;rows.push(`<row r="${r}" ht="26" customHeight="1">${cell(`A${r}`,x[0],2)}${cell(`B${r}`,x[1],3,typeof x[1]==='number'?'n':undefined)}${cell(`C${r}`,'',3)}${cell(`D${r}`,'',3)}</row>`)});
   rows.push(`<row r="6" ht="27" customHeight="1">${cell('A6','编码',4)}${cell('B6','品名',4)}${cell('C6','重量/KG',4)}${cell('D6','数量/包',4)}</row>`);
@@ -193,7 +184,7 @@ async function prepareOfflineApp(){
 }
 
 (async()=>{
-  await loadState();renderAll();await renderBackupStatus();await persist();
+  await loadState();renderAll();await persist();
   window.__counterBootReady=true;clearTimeout(window.__counterBootTimer);$('bootRecovery').hidden=true;
   prepareOfflineApp();
 })();
