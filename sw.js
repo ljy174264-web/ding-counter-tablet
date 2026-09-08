@@ -1,4 +1,4 @@
-const VERSION='2026.09.05.3';
+const VERSION='2026.09.08.1';
 const SHELL=`ding-counter-shell-${VERSION}`;
 const LAST_GOOD='ding-counter-last-good';
 const PREVIOUS_GOOD='ding-counter-previous-good';

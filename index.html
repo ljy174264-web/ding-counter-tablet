@@ -103,7 +103,7 @@
   <dialog id="quantityDialog" class="quantity-dialog">
     <form id="quantityForm">
       <div class="quantity-head"><div><p id="quantityCode">编码</p><h2 id="quantityName">品名</h2></div><button type="button" class="icon-btn" id="cancelQuantity" aria-label="关闭">×</button></div>
-      <label class="quantity-entry">输入数量<small>双击数字可手动输入</small><span class="quantity-control"><button type="button" id="decreaseQuantity" aria-label="数量减一">−</button><input id="quantityInput" type="number" inputmode="numeric" pattern="[0-9]*" min="0" step="1" placeholder="0" readonly aria-label="当前数量，双击后可手动输入"></span></label>
+      <label class="quantity-entry">输入数量<small id="quantityHint">双击数字可手动输入</small><span class="quantity-control"><button type="button" id="decreaseQuantity" aria-label="数量减一">−</button><input id="quantityInput" type="number" inputmode="numeric" pattern="[0-9]*" min="0" step="1" placeholder="0" readonly aria-label="当前数量，双击后可手动输入"></span></label>
       <div class="dialog-actions"><button type="button" class="soft-btn" id="cancelQuantityBottom">取消</button><button type="submit" class="primary-btn">确认数量</button></div>
     </form>
   </dialog>

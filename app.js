@@ -27,7 +27,7 @@ const PRICE_MAPS={
 };
 const STORAGE_KEY='ding-counter-state-v3';
 const DB_NAME='ding-counter-offline-v3';
-const APP_VERSION='2026.09.05.3';
+const APP_VERSION='2026.09.08.1';
 const $=id=>document.getElementById(id);
 const uid=()=>globalThis.crypto?.randomUUID?.()||`v-${Date.now()}-${Math.random().toString(16).slice(2)}`;
 const today=()=>{const d=new Date(),z=n=>String(n).padStart(2,'0');return `${d.getFullYear()}-${z(d.getMonth()+1)}-${z(d.getDate())}`};
@@ -103,7 +103,7 @@ function changeCount(code,delta){
   const v=activeVehicle(),before=Number(v.counts[code]||0),after=Math.max(0,before+delta);if(after===before){playSound('sub');return}
   state.history.push({vehicleId:v.id,code,before,after,timestamp:Date.now()});state.history=state.history.slice(-1000);v.counts[code]=after;playSound(delta>0?'add':'sub');renderTabs();renderStats();renderGrid();persist();
 }
-function openQuantityEditor(code){const v=activeVehicle(),item=itemsFor(v).find(x=>x[0]===code);if(!item)return;editingCode=code;quantityPreviewSound=false;lastQuantityTap=0;$('quantityCode').textContent=code;$('quantityName').textContent=item[1];$('quantityInput').readOnly=true;$('quantityInput').value=Number(v.counts[code]||0)||'';$('quantityDialog').showModal()}
+function openQuantityEditor(code){const v=activeVehicle(),item=itemsFor(v).find(x=>x[0]===code);if(!item)return;editingCode=code;quantityPreviewSound=false;lastQuantityTap=0;const direct=v.template==='b',input=$('quantityInput');$('quantityCode').textContent=code;$('quantityName').textContent=item[1];$('quantityHint').textContent=direct?'直接输入数量，或点减号减一':'双击数字可手动输入';input.readOnly=!direct;input.setAttribute('aria-label',direct?'当前数量，可直接输入':'当前数量，双击后可手动输入');input.value=Number(v.counts[code]||0)||'';$('quantityDialog').showModal();if(direct){input.focus();input.select()}}
 function saveQuantity(){const v=activeVehicle(),before=Number(v.counts[editingCode]||0),raw=$('quantityInput').value.trim(),parsed=raw===''?0:Math.floor(Number(raw)),after=Number.isFinite(parsed)&&parsed>0?parsed:0;if(before!==after){state.history.push({vehicleId:v.id,code:editingCode,before,after,timestamp:Date.now()});state.history=state.history.slice(-1000);v.counts[editingCode]=after;if(!(quantityPreviewSound&&after<before))playSound(after>=before?'add':'sub');renderTabs();renderStats();renderGrid();persist()}$('quantityDialog').close();$('quantityInput').readOnly=true;editingCode='';quantityPreviewSound=false}
 function historyTime(timestamp){if(!timestamp)return '时间未记录';const d=new Date(timestamp),z=n=>String(n).padStart(2,'0');return `${z(d.getMonth()+1)}/${z(d.getDate())} ${z(d.getHours())}:${z(d.getMinutes())}:${z(d.getSeconds())}`}
 function showHistory(){const v=activeVehicle(),idx=state.vehicles.indexOf(v)+1,items=new Map(itemsFor(v).map(([code,name])=>[code,name])),records=state.history.filter(x=>x.vehicleId===v.id).slice().reverse();$('historyVehicle').textContent=`${v.logo||`车辆${idx}`} · ${records.length}条`;$('historyList').innerHTML=records.length?records.map(x=>`<div class="history-row"><time>${historyTime(x.timestamp)}</time><span class="history-product"><b>${esc(x.code)}</b><small>${esc(items.get(x.code)||'品名未记录')}</small></span><strong>${Number(x.before||0)} → ${Number(x.after||0)}包</strong></div>`).join(''):'<div class="history-empty">当前车辆还没有计数记录</div>';$('historyDialog').showModal()}
