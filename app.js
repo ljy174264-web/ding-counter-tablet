@@ -1,3 +1,5 @@
+const SHOE_MEN_ID='__shoe_men_b';
+const SHOE_MIXED_ID='__shoe_mixed';
 const NORMAL_ITEMS = [
   ['22D','男士棉袄',80],['22H','男拉链夹',90],['99N','男呢子',90],['013','男西服',90],['74HL','女西装',90],
   ['028','儿童冬衣',95],['026','儿童春秋',90],['015M','带帽运动',90],['003J','无帽运动',90],['003P','运动裤',90],
@@ -6,28 +8,30 @@ const NORMAL_ITEMS = [
   ['55M','男毛衣',80],['55K','开衫毛衣',80],['55L','长毛衣',80],['55H','女毛衣',80],['55CH','高领毛衣',80],
   ['28W','童毛衣',80],['K042','牛仔衣',90],['K001','厚牛仔衣',90],['K002','马甲',90],['K005','呢子马甲',90],
   ['K105','人造毛',80],['K006','男T',90],['K009','金丝绒',80],['K008','窗帘',80],['HHR-1','床上用品',80],
-  ['HHR-2','毛巾浴巾',80],['111C','儿童校服',90],['K018','风衣马甲',90],['K004','滑料马甲',80],['089','冬下半身',90],
+  ['HHR-2','毛巾浴巾',80],['HHR-3','薄毛毯',80],['111C','儿童校服',90],['K018','风衣马甲',90],['K004','滑料马甲',80],['089','冬下半身',90],
   ['NW-L','长呢子',90],['089S','秋连',90],['K31','校服',90],['43PH','打底裤',90],['K046','围巾',80],
-  ['047','毛线裙',80],['48P','条绒裤',90],['019B','校服B',90],['24E','工作裙',90],['C10','文胸',80],
-  ['B028','冬童B',90],['N-29CH','男牛仔裤B',90],['N-003P','棉料运动',90],['N-003J','B开衫运动',90],['N15','B戴帽运动',90],
-  ['N2D','男夹克B',80],['N-33P','女牛B',90],['N-H075','男休闲裤B',90],['C/B','书包',20],['S/B','双肩包',20]
+  ['047','毛线裙',80],['48P','条绒裤',90],['019B','校服B',90],['24E','工作裙',90],['028K','文胸',80],
+  ['B028','冬童B',95],['B026','秋童B',90],['N-29CH','男牛仔裤B',90],['N-003P','棉料运动',90],['N-003J','B开衫运动',90],
+  ['N15','B戴帽运动',90],['N2D','男夹克B',80],['N-33P','女牛B',90],['N-H075','男休闲裤B',90],
+  [SHOE_MEN_ID,'男鞋B',20,''],[SHOE_MIXED_ID,'统货鞋',20,''],['C/B','书包',20],['S/B','双肩包',20]
 ];
 const B_ITEMS = [
   ['028','冬童',95],['026','秋童',90],['003P','运动裤',90],['22D','男棉袄',80],['22H','男夹克',80],
-  ['015M','带帽卫衣',90],['44N-B','冬衬',90],['mm18','棒球服',90],['55M','男毛衣',80],['K006','男TB',90],
-  ['88K','开衫运动',90],['K31','校服B',90],['K003J','无帽卫衣',80],['H075','男休闲裤B',90],['K008','窗帘',80],
-  ['S/B','双肩包',20],['鞋子','鞋子',20]
+  ['015M','带帽卫衣',90],['44N-B','冬衬',90],['MM18','棒球服',90],['55M','男毛衣',80],['K006','男TB',90],
+  ['88K','开衫运动',90],['K31','校服B',90],['K003J','无帽卫衣',80],['N-003J','B开衫运动',90],['H075','男休闲裤B',90],
+  ['K008','窗帘',80],['028K','文胸',80],[SHOE_MEN_ID,'男鞋B',20,''],[SHOE_MIXED_ID,'统货鞋',20,''],
+  ['C/B','书包',20],['S/B','双肩包',20]
 ];
 const TEMPLATES = {normal:NORMAL_ITEMS,b:B_ITEMS};
 const LOGO_OPTIONS={normal:['足球','BOSS'],b:['爱心','老鹰','牡丹']};
 const ALL_PRESET_LOGOS=Object.values(LOGO_OPTIONS).flat();
 const PRICE_MAPS={
-  normal:{'22D':4.8,'22H':4.8,'99N':4.8,'013':4.8,'74HL':4.8,'028':4.3,'026':3,'015M':4.8,'003J':3.5,'003P':4.8,'03H':4.8,'094':4.8,'113H':4.8,'33CH':3.5,'29CH':4.8,'H075':4.8,'H062':4.5,'32NH':2.5,'023':4.8,'55Q':4.8,'55M':4.8,'55K':4.5,'55L':4.8,'55H':4.8,'55CH':4.8,'28W':4,'K042':4.8,'K001':4.8,'K002':4.8,'K005':4.8,'K105':4.8,'K006':4.8,'K009':3,'K008':4.8,'HHR-1':4.8,'HHR-2':4.8,'111C':4.5,'K018':4.8,'K004':4.8,'089':4.8,'NW-L':4.8,'089S':4.8,'K31':4.8,'43PH':4.8,'K046':4.8,'047':4.8,'48P':4.8,'019B':2,'24E':4.8,'C10':15.5,'B028':1,'N-29CH':2,'N-003P':2,'N-003J':2,'N15':1.8,'N2D':2,'N-33P':2,'N-H075':2,'C/B':12,'S/B':17.5},
-  b:{'028':1,'026':1.5,'003P':2,'22D':2,'22H':2,'015M':1.8,'44N-B':2,'mm18':4,'55M':2,'K006':2,'88K':2,'K31':2.5,'K003J':3.5,'H075':2,'K008':4.8,'S/B':17.5}
+  normal:{'22D':4.8,'22H':4.8,'99N':4.8,'013':4.8,'74HL':4.8,'028':4.3,'026':3,'015M':4.8,'003J':3.5,'003P':4.8,'03H':4.8,'094':4.8,'113H':4.8,'33CH':3.5,'29CH':4.8,'H075':4.8,'H062':4.5,'32NH':2.5,'023':4.8,'55Q':4.8,'55M':4.8,'55K':4.5,'55L':4.8,'55H':4.8,'55CH':4.8,'28W':4,'K042':4.8,'K001':4.8,'K002':4.8,'K005':4.8,'K105':4.8,'K006':4.8,'K009':3,'K008':4.8,'HHR-1':4.8,'HHR-2':4.8,'HHR-3':7,'111C':4.5,'K018':4.8,'K004':4.8,'089':4.8,'NW-L':4.8,'089S':4.8,'K31':4.8,'43PH':4.8,'K046':4.8,'047':4.8,'48P':4.8,'019B':2,'24E':4.8,'028K':14.5,'B028':1,'B026':1.5,'N-29CH':2,'N-003P':2,'N-003J':2,'N15':1.8,'N2D':2,'N-33P':2,'N-H075':2,[SHOE_MEN_ID]:5,[SHOE_MIXED_ID]:9.5,'C/B':12,'S/B':17.5},
+  b:{'028':1,'026':1.5,'003P':2,'22D':2,'22H':2,'015M':1.8,'44N-B':2,'MM18':4,'55M':2,'K006':2,'88K':2,'K31':2.5,'K003J':3.5,'N-003J':2,'H075':2,'K008':4.8,'028K':14.5,[SHOE_MEN_ID]:5,[SHOE_MIXED_ID]:9.5,'C/B':12,'S/B':17.5}
 };
 const STORAGE_KEY='ding-counter-state-v3';
 const DB_NAME='ding-counter-offline-v3';
-const APP_VERSION='2026.09.08.1';
+const APP_VERSION='2026.09.21.1';
 const $=id=>document.getElementById(id);
 const uid=()=>globalThis.crypto?.randomUUID?.()||`v-${Date.now()}-${Math.random().toString(16).slice(2)}`;
 const today=()=>{const d=new Date(),z=n=>String(n).padStart(2,'0');return `${d.getFullYear()}-${z(d.getMonth()+1)}-${z(d.getDate())}`};
@@ -41,10 +45,13 @@ let onlyCounted=false, searchText='', metaExpanded=false, editingCode='', quanti
 function openDb(){return new Promise(resolve=>{try{const req=indexedDB.open(DB_NAME,1);req.onupgradeneeded=()=>req.result.createObjectStore('state');req.onsuccess=()=>{db=req.result;resolve(db)};req.onerror=()=>resolve(null)}catch{resolve(null)}})}
 function dbGet(key='main'){return new Promise(resolve=>{if(!db)return resolve(null);const req=db.transaction('state','readonly').objectStore('state').get(key);req.onsuccess=()=>resolve(req.result||null);req.onerror=()=>resolve(null)})}
 function dbPut(value,key='main'){return new Promise(resolve=>{if(!db)return resolve(false);const tx=db.transaction('state','readwrite');tx.objectStore('state').put(value,key);tx.oncomplete=()=>resolve(true);tx.onerror=()=>resolve(false)})}
+function migratedItemId(template,id){if(template==='normal'&&id==='C10')return'028K';if(template==='b'&&id==='mm18')return'MM18';if(id==='鞋子'||id==='男鞋B')return SHOE_MEN_ID;if(id==='统货鞋')return SHOE_MIXED_ID;return id}
+function migrateVehicleCounts(v){Object.keys(v.counts).forEach(id=>{const next=migratedItemId(v.template,id);if(next===id)return;v.counts[next]=Number(v.counts[next]||0)+Number(v.counts[id]||0);delete v.counts[id]})}
 function normalizeState(raw){
   if(!raw||!Array.isArray(raw.vehicles)||!raw.vehicles.length)return state;
-  raw.vehicles.forEach((v,i)=>{v.id=v.id||uid();v.name=`车辆${i+1}`;v.counts=v.counts||{};v.template=TEMPLATES[v.template]?v.template:'normal';v.date=v.date||today();v.logo=v.logo||'';v.container=v.container||'';v.freight=v.freight??'';v.createdAt=Number(v.createdAt)||Number(raw.updatedAt)||Date.now()+i});
-  raw.history=Array.isArray(raw.history)?raw.history.slice(-1000):[];
+  raw.vehicles.forEach((v,i)=>{v.id=v.id||uid();v.name=`车辆${i+1}`;v.counts=v.counts||{};v.template=TEMPLATES[v.template]?v.template:'normal';migrateVehicleCounts(v);v.date=v.date||today();v.logo=v.logo||'';v.container=v.container||'';v.freight=v.freight??'';v.createdAt=Number(v.createdAt)||Number(raw.updatedAt)||Date.now()+i});
+  const templates=new Map(raw.vehicles.map(v=>[v.id,v.template]));
+  raw.history=Array.isArray(raw.history)?raw.history.slice(-1000).map(h=>({...h,code:migratedItemId(templates.get(h.vehicleId),h.code)})):[];
   raw.activeId=raw.vehicles.some(v=>v.id===raw.activeId)?raw.activeId:raw.vehicles[0].id;
   raw.viewMonth=monthKey(raw.viewMonth||raw.vehicles.find(v=>v.id===raw.activeId)?.date);
   raw.lastOpenedMonth=monthKey(raw.lastOpenedMonth||raw.viewMonth);
@@ -70,6 +77,7 @@ function vehiclesForMonth(key=state.viewMonth){return state.vehicles.filter(v=>m
 function ensureActiveMonth(){let vehicles=vehiclesForMonth();if(!vehicles.length){const v=newVehicle(1,monthDate(state.viewMonth));state.vehicles.push(v);vehicles=[v]}if(!vehicles.some(v=>v.id===state.activeId))state.activeId=vehicles[0].id;return vehicles}
 function activeVehicle(){return state.vehicles.find(v=>v.id===state.activeId)||ensureActiveMonth()[0]}
 function itemsFor(v=activeVehicle()){return TEMPLATES[v.template]}
+function itemDisplayCode(item){return item.length>3?item[3]:item[0]}
 function stats(v=activeVehicle()){
   let qty=0,weight=0,kinds=0;itemsFor(v).forEach(([code,,kg])=>{const n=Number(v.counts[code]||0);qty+=n;weight+=n*kg;if(n>0)kinds++});return{qty,weight,kinds};
 }
@@ -92,8 +100,8 @@ function renderDrawer(){const drawer=$('metaDrawer');drawer.classList.toggle('hi
 function renderStats(){const v=activeVehicle(),s=stats(v);$('totalQty').textContent=s.qty.toLocaleString();$('totalWeight').textContent=s.weight.toLocaleString();$('totalPrice').textContent=formatMoney(priceTotal(v));$('footerLogo').textContent=v.logo||'未填Logo';$('footerQty').textContent=s.qty.toLocaleString()}
 function renderGrid(){
   const v=activeVehicle(),needle=searchText.trim().toLowerCase();
-  const visible=itemsFor(v).filter(([code,name])=>(!onlyCounted||Number(v.counts[code]||0)>0)&&(!needle||code.toLowerCase().includes(needle)||name.includes(needle)));
-  $('countGrid').innerHTML=visible.map(([code,name])=>{const n=Number(v.counts[code]||0),badge=n?`<button class="qty-pill direct-badge" aria-label="修改${esc(code)}数量">${n}</button>`:'';return `<article class="item-card ${v.template==='b'?'direct-card':''} ${n?'counted':''}" data-code="${esc(code)}"><div class="item-code">${esc(code)}</div><div class="item-name">${esc(name)}</div>${badge}</article>`}).join('');
+  const visible=itemsFor(v).filter(item=>{const[id,name]=item,code=itemDisplayCode(item);return(!onlyCounted||Number(v.counts[id]||0)>0)&&(!needle||code.toLowerCase().includes(needle)||name.includes(needle))});
+  $('countGrid').innerHTML=visible.map(item=>{const[id,name]=item,code=itemDisplayCode(item),n=Number(v.counts[id]||0),badge=n?`<button class="qty-pill direct-badge" aria-label="修改${esc(name)}数量">${n}</button>`:'';return `<article class="item-card ${v.template==='b'?'direct-card':''} ${code?'':'no-code'} ${n?'counted':''}" data-code="${esc(id)}">${code?`<div class="item-code">${esc(code)}</div>`:''}<div class="item-name">${esc(name)}</div>${badge}</article>`}).join('');
   $('emptyState').classList.toggle('hidden',visible.length>0);
   if(v.template==='b')document.querySelectorAll('.item-card').forEach(card=>card.onclick=()=>openQuantityEditor(card.dataset.code));
   else document.querySelectorAll('.item-card').forEach(card=>{card.onclick=e=>{if(e.target.closest('.qty-pill'))return openQuantityEditor(card.dataset.code);changeCount(card.dataset.code,1)}})
@@ -103,10 +111,10 @@ function changeCount(code,delta){
   const v=activeVehicle(),before=Number(v.counts[code]||0),after=Math.max(0,before+delta);if(after===before){playSound('sub');return}
   state.history.push({vehicleId:v.id,code,before,after,timestamp:Date.now()});state.history=state.history.slice(-1000);v.counts[code]=after;playSound(delta>0?'add':'sub');renderTabs();renderStats();renderGrid();persist();
 }
-function openQuantityEditor(code){const v=activeVehicle(),item=itemsFor(v).find(x=>x[0]===code);if(!item)return;editingCode=code;quantityPreviewSound=false;lastQuantityTap=0;const direct=v.template==='b',input=$('quantityInput');$('quantityCode').textContent=code;$('quantityName').textContent=item[1];$('quantityHint').textContent=direct?'直接输入数量，或点减号减一':'双击数字可手动输入';input.readOnly=!direct;input.setAttribute('aria-label',direct?'当前数量，可直接输入':'当前数量，双击后可手动输入');input.value=Number(v.counts[code]||0)||'';$('quantityDialog').showModal();if(direct){input.focus();input.select()}}
+function openQuantityEditor(code){const v=activeVehicle(),item=itemsFor(v).find(x=>x[0]===code);if(!item)return;editingCode=code;quantityPreviewSound=false;lastQuantityTap=0;const direct=v.template==='b',input=$('quantityInput');$('quantityCode').textContent=itemDisplayCode(item)||'无编码';$('quantityName').textContent=item[1];$('quantityHint').textContent=direct?'直接输入数量，或点减号减一':'双击数字可手动输入';input.readOnly=!direct;input.setAttribute('aria-label',direct?'当前数量，可直接输入':'当前数量，双击后可手动输入');input.value=Number(v.counts[code]||0)||'';$('quantityDialog').showModal();if(direct){input.focus();input.select()}}
 function saveQuantity(){const v=activeVehicle(),before=Number(v.counts[editingCode]||0),raw=$('quantityInput').value.trim(),parsed=raw===''?0:Math.floor(Number(raw)),after=Number.isFinite(parsed)&&parsed>0?parsed:0;if(before!==after){state.history.push({vehicleId:v.id,code:editingCode,before,after,timestamp:Date.now()});state.history=state.history.slice(-1000);v.counts[editingCode]=after;if(!(quantityPreviewSound&&after<before))playSound(after>=before?'add':'sub');renderTabs();renderStats();renderGrid();persist()}$('quantityDialog').close();$('quantityInput').readOnly=true;editingCode='';quantityPreviewSound=false}
 function historyTime(timestamp){if(!timestamp)return '时间未记录';const d=new Date(timestamp),z=n=>String(n).padStart(2,'0');return `${z(d.getMonth()+1)}/${z(d.getDate())} ${z(d.getHours())}:${z(d.getMinutes())}:${z(d.getSeconds())}`}
-function showHistory(){const v=activeVehicle(),idx=state.vehicles.indexOf(v)+1,items=new Map(itemsFor(v).map(([code,name])=>[code,name])),records=state.history.filter(x=>x.vehicleId===v.id).slice().reverse();$('historyVehicle').textContent=`${v.logo||`车辆${idx}`} · ${records.length}条`;$('historyList').innerHTML=records.length?records.map(x=>`<div class="history-row"><time>${historyTime(x.timestamp)}</time><span class="history-product"><b>${esc(x.code)}</b><small>${esc(items.get(x.code)||'品名未记录')}</small></span><strong>${Number(x.before||0)} → ${Number(x.after||0)}包</strong></div>`).join(''):'<div class="history-empty">当前车辆还没有计数记录</div>';$('historyDialog').showModal()}
+function showHistory(){const v=activeVehicle(),idx=state.vehicles.indexOf(v)+1,items=new Map(itemsFor(v).map(item=>[item[0],{name:item[1],code:itemDisplayCode(item)}])),records=state.history.filter(x=>x.vehicleId===v.id).slice().reverse();$('historyVehicle').textContent=`${v.logo||`车辆${idx}`} · ${records.length}条`;$('historyList').innerHTML=records.length?records.map(x=>{const item=items.get(x.code);return `<div class="history-row"><time>${historyTime(x.timestamp)}</time><span class="history-product"><b>${esc(item?.code||'无编码')}</b><small>${esc(item?.name||'品名未记录')}</small></span><strong>${Number(x.before||0)} → ${Number(x.after||0)}包</strong></div>`}).join(''):'<div class="history-empty">当前车辆还没有计数记录</div>';$('historyDialog').showModal()}
 function updateMeta(field,value){const v=activeVehicle();v[field]=value;renderTabs();renderStats();persist()}
 $('monthSelect').onchange=e=>{state.viewMonth=e.target.value;ensureActiveMonth();renderAll();persist()};
 $('addVehicle').onclick=()=>{const v=newVehicle(vehiclesForMonth().length+1,monthDate(state.viewMonth));state.vehicles.push(v);state.activeId=v.id;metaExpanded=true;renderAll();persist();showToast(`已添加${monthLabel(state.viewMonth)}的新车辆`)};
@@ -148,11 +156,11 @@ function cell(ref,value,style=5,type){if(value===null||value===undefined||value=
 function exportSheetBase(v){const [,m,d]=String(v.date||'').split('-').map(Number),logo=String(v.logo||'').trim().replace(/[\\/:?*\[\]']/g,'');return `${m||''}月${d||''}日${logo}`||'数量单'}
 function exportSheetEntries(vehicles){const used=new Set();return vehicles.map(vehicle=>{const base=exportSheetBase(vehicle);let name=base.slice(0,31),n=1;while(used.has(name)){n++;const suffix=`-${n}`;name=base.slice(0,31-suffix.length)+suffix}used.add(name);return{vehicle,name}})}
 function makeSheetXml(v){
-  const items=itemsFor(v).filter(([code])=>Number(v.counts[code]||0)>0),start=7,end=start+items.length-1,total=end+1,s=stats(v),rows=[];
+  const items=itemsFor(v).filter(([id])=>Number(v.counts[id]||0)>0),start=7,end=start+items.length-1,total=end+1,s=stats(v),rows=[];
   rows.push(`<row r="1" ht="34" customHeight="1">${cell('A1','丁总数量单',1)}</row>`);
   [['日期',formatDateCN(v.date)],['Logo',v.logo],['柜号',v.container],['海运费',v.freight===''?'':Number(v.freight)]].forEach((x,i)=>{const r=i+2;rows.push(`<row r="${r}" ht="26" customHeight="1">${cell(`A${r}`,x[0],2)}${cell(`B${r}`,x[1],3,typeof x[1]==='number'?'n':undefined)}${cell(`C${r}`,'',3)}${cell(`D${r}`,'',3)}</row>`)});
   rows.push(`<row r="6" ht="27" customHeight="1">${cell('A6','编码',4)}${cell('B6','品名',4)}${cell('C6','重量/KG',4)}${cell('D6','数量/包',4)}</row>`);
-  items.forEach(([code,name,kg],i)=>{const r=start+i,n=Number(v.counts[code]||0);rows.push(`<row r="${r}" ht="22" customHeight="1">${cell(`A${r}`,code,5)}${cell(`B${r}`,name,5)}${cell(`C${r}`,kg,5,'n')}${cell(`D${r}`,n||'',5,'n')}</row>`)});
+  items.forEach((item,i)=>{const[id,name,kg]=item,code=itemDisplayCode(item),r=start+i,n=Number(v.counts[id]||0);rows.push(`<row r="${r}" ht="22" customHeight="1">${cell(`A${r}`,code,5)}${cell(`B${r}`,name,5)}${cell(`C${r}`,kg,5,'n')}${cell(`D${r}`,n||'',5,'n')}</row>`)});
   rows.push(`<row r="${total}" ht="28" customHeight="1">${cell(`A${total}`,'合计',6)}<c r="D${total}" s="6"><f>SUM(D${start}:D${end})</f><v>${s.qty}</v></c></row>`);
   return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetViews><sheetView showGridLines="0" workbookViewId="0"><pane ySplit="6" topLeftCell="A7" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews><sheetFormatPr defaultRowHeight="20"/><cols><col min="1" max="1" width="18" customWidth="1"/><col min="2" max="2" width="25" customWidth="1"/><col min="3" max="4" width="15" customWidth="1"/></cols><sheetData>${rows.join('')}</sheetData><mergeCells count="6"><mergeCell ref="A1:D1"/><mergeCell ref="B2:D2"/><mergeCell ref="B3:D3"/><mergeCell ref="B4:D4"/><mergeCell ref="B5:D5"/><mergeCell ref="A${total}:C${total}"/></mergeCells><pageMargins left="0.3" right="0.3" top="0.4" bottom="0.4" header="0.2" footer="0.2"/><pageSetup orientation="portrait" fitToWidth="1" fitToHeight="0"/></worksheet>`;
 }
