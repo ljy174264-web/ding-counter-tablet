@@ -1,5 +1,6 @@
 const SHOE_MEN_ID='__shoe_men_b';
 const SHOE_MIXED_ID='__shoe_mixed';
+const BAG_LEATHER_ID='__bag_leather';
 const NORMAL_ITEMS = [
   ['22D','男士棉袄',80],['22H','男拉链夹',90],['99N','男呢子',90],['013','男西服',90],['74HL','女西装',90],
   ['028','儿童冬衣',95],['026','儿童春秋',90],['015M','带帽运动',90],['003J','无帽运动',90],['003P','运动裤',90],
@@ -13,25 +14,25 @@ const NORMAL_ITEMS = [
   ['047','毛线裙',80],['48P','条绒裤',90],['019B','校服B',90],['24E','工作裙',90],['028K','文胸',80],
   ['B028','冬童B',95],['B026','秋童B',90],['N-29CH','男牛仔裤B',90],['N-003P','棉料运动',90],['N-003J','B开衫运动',90],
   ['N15','B戴帽运动',90],['N2D','男夹克B',80],['N-33P','女牛B',90],['N-H075','男休闲裤B',90],
-  [SHOE_MEN_ID,'男鞋B',20,''],[SHOE_MIXED_ID,'统货鞋',20,''],['C/B','书包',20],['S/B','双肩包',20]
+  [SHOE_MEN_ID,'男鞋B',20,''],[SHOE_MIXED_ID,'统货鞋',20,''],[BAG_LEATHER_ID,'皮包',20,''],['C/B','书包',20],['S/B','双肩包',20]
 ];
 const B_ITEMS = [
-  ['028','冬童',95],['026','秋童',90],['003P','运动裤',90],['22D','男棉袄',80],['22H','男夹克',80],
-  ['015M','带帽卫衣',90],['44N-B','冬衬',90],['MM18','棒球服',90],['55M','男毛衣',80],['K006','男TB',90],
+  ['028','冬童',95],['K028','冬童A',95],['026','秋童',90],['003P','运动裤',90],['22D','男棉袄',80],['22H','男夹克',80],
+  ['015M','带帽卫衣',90],['44N','冬衬',90],['MM18','棒球服',90],['55M','男毛衣',80],['K006','男TB',90],
   ['88K','开衫运动',90],['K31','校服B',90],['K003J','无帽卫衣',80],['N-003J','B开衫运动',90],['H075','男休闲裤B',90],
-  ['K008','窗帘',80],['028K','文胸',80],[SHOE_MEN_ID,'男鞋B',20,''],[SHOE_MIXED_ID,'统货鞋',20,''],
-  ['C/B','书包',20],['S/B','双肩包',20]
+  ['K008','窗帘',80],['028K','文胸',80],['K113H','风裤',90],['HHR-1','床上用品',80],['HHR-3','薄毛毯',80],['75D','多袋裤',90],
+  [SHOE_MEN_ID,'男鞋B',20,''],[BAG_LEATHER_ID,'皮包',20,''],['C/B','书包',20],['S/B','双肩包',20]
 ];
 const TEMPLATES = {normal:NORMAL_ITEMS,b:B_ITEMS};
 const LOGO_OPTIONS={normal:['足球','BOSS'],b:['爱心','老鹰','牡丹']};
 const ALL_PRESET_LOGOS=Object.values(LOGO_OPTIONS).flat();
 const PRICE_MAPS={
-  normal:{'22D':4.8,'22H':4.8,'99N':4.8,'013':4.8,'74HL':4.8,'028':4.3,'026':3,'015M':4.8,'003J':3.5,'003P':4.8,'03H':4.8,'094':4.8,'113H':4.8,'33CH':3.5,'29CH':4.8,'H075':4.8,'H062':4.5,'32NH':2.5,'023':4.8,'55Q':4.8,'55M':4.8,'55K':4.5,'55L':4.8,'55H':4.8,'55CH':4.8,'28W':4,'K042':4.8,'K001':4.8,'K002':4.8,'K005':4.8,'K105':4.8,'K006':4.8,'K009':3,'K008':4.8,'HHR-1':4.8,'HHR-2':4.8,'HHR-3':7,'111C':4.5,'K018':4.8,'K004':4.8,'089':4.8,'NW-L':4.8,'089S':4.8,'K31':4.8,'43PH':4.8,'K046':4.8,'047':4.8,'48P':4.8,'019B':2,'24E':4.8,'028K':14.5,'B028':1,'B026':1.5,'N-29CH':2,'N-003P':2,'N-003J':2,'N15':1.8,'N2D':2,'N-33P':2,'N-H075':2,[SHOE_MEN_ID]:5,[SHOE_MIXED_ID]:9.5,'C/B':12,'S/B':17.5},
-  b:{'028':1,'026':1.5,'003P':2,'22D':2,'22H':2,'015M':1.8,'44N-B':2,'MM18':4,'55M':2,'K006':2,'88K':2,'K31':2.5,'K003J':3.5,'N-003J':2,'H075':2,'K008':4.8,'028K':14.5,[SHOE_MEN_ID]:5,[SHOE_MIXED_ID]:9.5,'C/B':12,'S/B':17.5}
+  normal:{'22D':4.8,'22H':4.8,'99N':4.8,'013':4.8,'74HL':4.8,'028':4.3,'026':3,'015M':4.8,'003J':3.5,'003P':4.8,'03H':4.8,'094':4.8,'113H':4.8,'33CH':3.5,'29CH':4.8,'H075':4.8,'H062':4.5,'32NH':2.5,'023':4.8,'55Q':4.8,'55M':4.8,'55K':4.5,'55L':4.8,'55H':4.8,'55CH':4.8,'28W':4,'K042':4.8,'K001':4.8,'K002':4.8,'K005':4.8,'K105':4.8,'K006':4.8,'K009':3,'K008':4.8,'HHR-1':4.8,'HHR-2':4.8,'HHR-3':7,'111C':4.5,'K018':4.8,'K004':4.8,'089':4.5,'NW-L':4.8,'089S':4.8,'K31':4.8,'43PH':4.8,'K046':4.8,'047':4.8,'48P':4.8,'019B':2,'24E':4.8,'028K':15,'B028':1,'B026':1.5,'N-29CH':2,'N-003P':2,'N-003J':2,'N15':1.8,'N2D':2,'N-33P':2,'N-H075':2,[SHOE_MEN_ID]:5,[SHOE_MIXED_ID]:9.5,[BAG_LEATHER_ID]:17,'C/B':14,'S/B':18},
+  b:{'028':1,'K028':3.5,'026':1.5,'003P':2,'22D':2,'22H':2,'015M':1.8,'44N':2,'MM18':4,'55M':2,'K006':2,'88K':2,'K31':2.5,'K003J':3,'N-003J':2,'H075':2,'K008':4.8,'028K':15,'K113H':7,'HHR-1':4.8,'HHR-3':7,'75D':7,[SHOE_MEN_ID]:5,[BAG_LEATHER_ID]:17,'C/B':14,'S/B':18}
 };
 const STORAGE_KEY='ding-counter-state-v3';
 const DB_NAME='ding-counter-offline-v3';
-const APP_VERSION='2026.09.21.1';
+const APP_VERSION='2026.10.10.1';
 const $=id=>document.getElementById(id);
 const uid=()=>globalThis.crypto?.randomUUID?.()||`v-${Date.now()}-${Math.random().toString(16).slice(2)}`;
 const today=()=>{const d=new Date(),z=n=>String(n).padStart(2,'0');return `${d.getFullYear()}-${z(d.getMonth()+1)}-${z(d.getDate())}`};
@@ -45,7 +46,7 @@ let onlyCounted=false, searchText='', metaExpanded=false, editingCode='', quanti
 function openDb(){return new Promise(resolve=>{try{const req=indexedDB.open(DB_NAME,1);req.onupgradeneeded=()=>req.result.createObjectStore('state');req.onsuccess=()=>{db=req.result;resolve(db)};req.onerror=()=>resolve(null)}catch{resolve(null)}})}
 function dbGet(key='main'){return new Promise(resolve=>{if(!db)return resolve(null);const req=db.transaction('state','readonly').objectStore('state').get(key);req.onsuccess=()=>resolve(req.result||null);req.onerror=()=>resolve(null)})}
 function dbPut(value,key='main'){return new Promise(resolve=>{if(!db)return resolve(false);const tx=db.transaction('state','readwrite');tx.objectStore('state').put(value,key);tx.oncomplete=()=>resolve(true);tx.onerror=()=>resolve(false)})}
-function migratedItemId(template,id){if(template==='normal'&&id==='C10')return'028K';if(template==='b'&&id==='mm18')return'MM18';if(id==='鞋子'||id==='男鞋B')return SHOE_MEN_ID;if(id==='统货鞋')return SHOE_MIXED_ID;return id}
+function migratedItemId(template,id){if(template==='normal'&&id==='C10')return'028K';if(template==='b'&&id==='mm18')return'MM18';if(template==='b'&&id==='44N-B')return'44N';if(id==='鞋子'||id==='男鞋B')return SHOE_MEN_ID;if(id==='统货鞋')return SHOE_MIXED_ID;if(id==='皮包')return BAG_LEATHER_ID;return id}
 function migrateVehicleCounts(v){Object.keys(v.counts).forEach(id=>{const next=migratedItemId(v.template,id);if(next===id)return;v.counts[next]=Number(v.counts[next]||0)+Number(v.counts[id]||0);delete v.counts[id]})}
 function normalizeState(raw){
   if(!raw||!Array.isArray(raw.vehicles)||!raw.vehicles.length)return state;
